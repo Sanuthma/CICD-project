@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        maven "Maven3"
+        maven "maven3"
     }
     stages {
         stage('Clean workspace') {
@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Git clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/Aseemakram19/java-maven-app.git'
+                git branch: 'main', url: 'https://github.com/Sanuthma/CICD-project.git'
             }
         }
         stage('maven war file build') {
@@ -25,7 +25,7 @@ pipeline {
                 script{
                         sh '''docker stop javamavenapp_container
                         docker rm javamavenapp_container
-                        docker rmi javamavenapp aseemakram19/javamavenapp:latest'''
+                        docker rmi javamavenapp sanu2002/javamavenapp:latest'''
                 }  
             }
         }
@@ -35,15 +35,15 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker', toolname: 'docker'){
                 
                         sh '''docker build -t javamavenapp .
-                        docker tag javamavenapp aseemakram19/javamavenapp:latest
-                        docker push  aseemakram19/javamavenapp:latest'''
+                        docker tag javamavenapp sanu2002/javamavenapp:latest
+                        docker push  sanu2002/javamavenapp:latest'''
                       } 
                 }
             }
         }
         stage('docker container of app') {
             steps {
-               sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t aseemakram19/javamavenapp:latest'
+               sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t sanu2002/javamavenapp:latest'
             }
         }
         
